@@ -143,7 +143,7 @@ export function ComboboxClient({
                         {items.map((item) => (
                           <CommandItem
                             key={item.value}
-                            value={item.value}
+                            value={String(item.value)} 
                             className="text-sm"
                             onSelect={() => {
                               if (labelField) {
