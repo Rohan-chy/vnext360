@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* Enable dark mode */
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   THEME (Tailwind v4 tokens)
+   ========================= */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+/* =========================
+   LIGHT MODE (YOUR BRAND)
+   ========================= */
+:root {
+  --radius: 0.625rem;
+
+  --background: #e6f4ef;
+  --foreground: #1f2937;
+
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+
+  /*  YOUR GREEN BRAND */
+  --primary: #0d6641;
+  --primary-foreground: #ffffff;
+
+  --secondary: #d1fae5;
+  --secondary-foreground: #065f46;
+
+  --muted: #f0fdf4;
+  --muted-foreground: #6b7280;
+
+  --accent: #ecfdf5;
+  --accent-foreground: #065f46;
+
+  --destructive: #dc2626;
+
+  --border: #d1d5db;
+  --input: #e5e7eb;
+  --ring: #0d6641;
+
+  /* Sidebar */
+  --sidebar: #0d6641;
+  --sidebar-foreground: #ffffff;
+
+  --sidebar-primary: #1f8a5b;
+  --sidebar-primary-foreground: #ffffff;
+
+  --sidebar-accent: #145c3a;
+  --sidebar-accent-foreground: #ffffff;
+
+  --sidebar-border: #1f8a5b;
+  --sidebar-ring: #ffffff;
+}
+
+/* =========================
+   DARK MODE
+   ========================= */
+.dark {
+  --background: #0b1f17;
+  --foreground: #e5e7eb;
+
+  --card: #0f2a20;
+  --card-foreground: #e5e7eb;
+
+  --popover: #0f2a20;
+  --popover-foreground: #e5e7eb;
+
+  /*  DARK GREEN */
+  --primary: #1f8a5b;
+  --primary-foreground: #ffffff;
+
+  --secondary: #14532d;
+  --secondary-foreground: #d1fae5;
+
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+
+  --accent: #064e3b;
+  --accent-foreground: #d1fae5;
+
+  --destructive: #ef4444;
+
+  --border: #1f2937;
+  --input: #1f2937;
+  --ring: #1f8a5b;
+
+  /* Sidebar */
+  --sidebar: #0f2a20;
+  --sidebar-foreground: #ffffff;
+
+  --sidebar-primary: #1f8a5b;
+  --sidebar-primary-foreground: #ffffff;
+
+  --sidebar-accent: #064e3b;
+  --sidebar-accent-foreground: #d1fae5;
+
+  --sidebar-border: #1f2937;
+  --sidebar-ring: #1f8a5b;
+}
+
+/* =========================
+   BASE STYLES
+   ========================= */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #444;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.autoplay-progress {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.autoplay-progress svg {
+  --progress: 0;
+  position: absolute;
+  left: 0;
+  top: 0px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  stroke-width: 4px;
+  stroke: white;
+  fill: none;
+  stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+  stroke-dasharray: 125.6;
+  transform: rotate(-90deg);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white !important;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.7 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: white !important;
+  opacity: 1 !important;
+}

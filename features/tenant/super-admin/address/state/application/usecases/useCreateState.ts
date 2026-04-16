@@ -1,0 +1,19 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { stateFormData } from '../../domain/state.schema';
+import { createState } from '../../infrastructure/createStateApi.repo';
+
+export const useCreateState = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: stateFormData) => createState(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['get-State'] });
+      toast.success('Data added Successfully');
+    },
+    onError: () => {
+      toast.error('Something went wrong');
+    },
+  });
+};

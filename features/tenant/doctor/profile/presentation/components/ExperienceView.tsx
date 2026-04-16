@@ -1,0 +1,187 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { DeleteAlert } from '@/components/custom-components/delete-alert';
+import { FloatingLabelFormInput } from '@/components/custom-components/floating-label-form-input';
+import { Combobox } from '@/components/custom-components/combobox';
+import { documentTypeOptions } from '../../application/utils/documentTypeOptions';
+import { CustomButton } from '@/components/extended/extended-button';
+import { Form } from '@/components/ui/form';
+import { ImagePreview } from './ImageView';
+import { FormTextArea } from '@/components/extended/form-textarea';
+
+interface Props {
+  form: any;
+  fields: any[];
+  onAdd: () => void;
+  onRemove: (index: number) => void;
+  onClear: (index: number) => void;
+  onUpload?: (index: number, file: File, dynamicDocumentTypeId: string) => void;
+  onSubmit: () => void;
+  documentTypeData: any;
+  isEditing?: boolean;
+  isPending?: boolean;
+  isSaving?: boolean;
+  isDeleting?: boolean;
+  doctorId?: string;
+  prevTab?: string;
+  onBack?: () => void;
+}
+
+const ExperienceView = ({
+  form,
+  fields,
+  onAdd,
+  onRemove,
+  onClear,
+  onUpload,
+  onSubmit,
+  documentTypeData,
+  isPending,
+  isSaving,
+  isDeleting,
+  onBack,
+  prevTab,
+}: Props) => {
+  const { getValues } = form;
+
+  return (
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-6">
+        {/*  HEADER */}
+        <div className="rounded-xl overflow-hidden border shadow-sm">
+          <div className="px-5 py-2 text-primary font-semibold text-lg flex justify-between items-center">
+            <span>Experiences</span>
+            <Button type="button" size="sm" onClick={onAdd}>
+              + Add
+            </Button>
+          </div>
+
+          {/* ⚪ BODY */}
+          <div className="px-5 pb-5 space-y-6">
+            {fields.length === 0 && (
+              <div className="text-center text-gray-500 border border-dashed rounded-lg p-6">
+                No experience records added yet
+              </div>
+            )}
+
+            {fields.map((field, index) => (
+              <div
+                key={field.id}
+                className="bg-white border rounded-xl shadow-sm overflow-hidden"
+              >
+                {/* CARD HEADER */}
+                <div className="flex justify-between items-center px-4 py-2 border-b bg-gray-50">
+                  <h3 className="text-sm font-semibold text-primary">
+                    Experience #{index + 1}
+                  </h3>
+                  <div className="flex gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="h-6 p-3"
+                      onClick={() => onClear(index)}
+                    >
+                      Clear
+                    </Button>
+                    {fields.length > 1 && (
+                      <DeleteAlert
+                        onClick={() => onRemove(index)}
+                        disabled={isDeleting}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* CARD BODY */}
+                <div className="p-5 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <FloatingLabelFormInput
+                      form={form}
+                      name={`doctorExperiences.${index}.instituteName`}
+                      label="Institute Name"
+                    />
+
+                    <FloatingLabelFormInput
+                      form={form}
+                      name={`doctorExperiences.${index}.joinDate`}
+                      label="Join Date"
+                      type="date"
+                    />
+
+                    <FloatingLabelFormInput
+                      form={form}
+                      name={`doctorExperiences.${index}.completionDate`}
+                      label="Completion Date"
+                      type="date"
+                    />
+
+                    <Combobox
+                      items={documentTypeOptions(documentTypeData) || []}
+                      form={form}
+                      name={`doctorExperiences.${index}.dynamicDocumentTypeId`}
+                      label="Document Type"
+                    />
+
+                    {/* 📄 FILE UPLOAD */}
+                    <FloatingLabelFormInput
+                      type="file"
+                      form={form}
+                      name={`doctorExperiences.${index}.documentUrl`}
+                      label="Upload Document"
+                      disabled={isPending}
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (!file || !onUpload) return;
+
+                        const dynamicDocumentTypeId = getValues(
+                          `doctorExperiences.${index}.dynamicDocumentTypeId`
+                        );
+
+                        onUpload(index, file, dynamicDocumentTypeId);
+                      }}
+                    />
+
+                    <div className="col-span-full">
+                      <FormTextArea
+                        form={form}
+                        name={`doctorExperiences.${index}.remarks`}
+                        label="Additional Notes"
+                      />
+                    </div>
+
+                    {field?.images && (
+                      <div className="border rounded-md p-2 bg-gray-50">
+                        <ImagePreview src={field.images} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 🔻 ACTION BAR */}
+        <div className="sticky bottom-0 p-4 flex justify-between items-center">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={onBack}
+            disabled={!prevTab}
+          >
+            Back
+          </Button>
+
+          <CustomButton type="submit" size="sm" disabled={isSaving}>
+            {isSaving ? 'Saving...' : 'Save & Continue'}
+          </CustomButton>
+        </div>
+      </form>
+    </Form>
+  );
+};
+
+export default ExperienceView;
