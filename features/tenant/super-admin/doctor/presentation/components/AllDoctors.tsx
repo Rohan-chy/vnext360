@@ -11,20 +11,20 @@ import {
 } from '@/components/ui/dialog';
 import CreateDoctorForm from './CreateDoctorForm';
 import { useState } from 'react';
-import { DoctorsResponse } from '../../domain/getDoctors.schema';
 import { mapDoctorToFormValues } from '../../application/services/mapDoctorToForm';
 import DatalistHeader from '@/components/custom-components/data-list-header';
+import { DoctorsDetails } from '../../domain/getDoctors.schema';
 
 const AllDoctors = () => {
   const { data } = useGetDoctors();
-  const doctors: DoctorsResponse[] = data?.data || [];
+  const doctors: DoctorsDetails[] = data?.data || [];
 
   const [open, setOpen] = useState(false);
-  const [editingDoctor, setEditingDoctor] = useState<DoctorsResponse | null>(
+  const [editingDoctor, setEditingDoctor] = useState<DoctorsDetails | null>(
     null
   );
 
-  const handleEdit = (doctor: DoctorsResponse) => {
+  const handleEdit = (doctor: DoctorsDetails) => {
     setEditingDoctor(doctor);
     setOpen(true);
   };
